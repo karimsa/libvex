@@ -52,4 +52,4 @@ void getJSDigital(int joystick, int channel, int btn);
  */
  
 void LV_DoStuff();
-#endif __LIBVEX_H
+#endif

@@ -32,10 +32,10 @@ int isButtonPressed(int button) {
  * Copyright (C) 2014 Karim Alibhai.
  */
 
-int /*!the pin of the front left wheel*/ LV_F1 = -1,
-	/*!the pin of the front right wheel*/ LV_F2 = -1,
-	/*!the pin of the back left wheel*/ LV_B1 = -1,
-	/*!the pin of the back right wheel*/ LV_B2 = -1,
+int /*!the pin of the front left wheel*/ LV_WHEEL_F1 = -1,
+	/*!the pin of the front right wheel*/ LV_WHEEL_F2 = -1,
+	/*!the pin of the back left wheel*/ LV_WHEEL_B1 = -1,
+	/*!the pin of the back right wheel*/ LV_WHEEL_B2 = -1,
 	/*!whether or not libvex should handle driving*/ LV_DRIVE_ENABLED = 0,
 	/*!the joystick which should handle driving*/ LV_DRIVE_JOYSTICK = 0,
 	/*!the channel on the joystick handling driving*/ LV_DRIVE_CHANNEL = 0,
@@ -131,21 +131,21 @@ void LV_DoDrive() {
              tVal = getJSAnalog(LV_TURN_JOYSTICK, LV_TURN_CHANNEL);
 
              if (tVal > 10) {
-                 SetMotor(WHEEL_F1, (LV_DRIVE_ENABLED == 2 ? 127 : dVal) * -1);
-                 SetMotor(WHEEL_B1, (LV_DRIVE_ENABLED == 2 ? 127 : dVal) * -1);
-                 SetMotor(WHEEL_F2, (LV_DRIVE_ENABLED == 2 ? 127 : dVal) / 2);
-                 SetMotor(WHEEL_B2, (LV_DRIVE_ENABLED == 2 ? 127 : dVal) / 2);
+                 SetMotor(LV_WHEEL_F1, (LV_DRIVE_ENABLED == 2 ? 127 : dVal) * -1);
+                 SetMotor(LV_WHEEL_B1, (LV_DRIVE_ENABLED == 2 ? 127 : dVal) * -1);
+                 SetMotor(LV_WHEEL_F2, (LV_DRIVE_ENABLED == 2 ? 127 : dVal) / 2);
+                 SetMotor(LV_WHEEL_B2, (LV_DRIVE_ENABLED == 2 ? 127 : dVal) / 2);
              } else {
-                 SetMotor(WHEEL_F1, ((LV_DRIVE_ENABLED == 2 ? 127 : dVal) / 2) * -1);
-                 SetMotor(WHEEL_B1, ((LV_DRIVE_ENABLED == 2 ? 127 : dVal) / 2) * -1);
-                 SetMotor(WHEEL_F2, (LV_DRIVE_ENABLED == 2 ? 127 : dVal));
-                 SetMotor(WHEEL_B2, (LV_DRIVE_ENABLED == 2 ? 127 : dVal));
+                 SetMotor(LV_WHEEL_F1, ((LV_DRIVE_ENABLED == 2 ? 127 : dVal) / 2) * -1);
+                 SetMotor(LV_WHEEL_B1, ((LV_DRIVE_ENABLED == 2 ? 127 : dVal) / 2) * -1);
+                 SetMotor(LV_WHEEL_F2, (LV_DRIVE_ENABLED == 2 ? 127 : dVal));
+                 SetMotor(LV_WHEEL_B2, (LV_DRIVE_ENABLED == 2 ? 127 : dVal));
              }
          } else {
-             SetMotor(WHEEL_F1, (LV_DRIVE_ENABLED == 2 ? 127 : dVal) * -1);
-             SetMotor(WHEEL_B1, (LV_DRIVE_ENABLED == 2 ? 127 : dVal) * -1);
-             SetMotor(WHEEL_F2, (LV_DRIVE_ENABLED == 2 ? 127 : dVal));
-             SetMotor(WHEEL_B2, (LV_DRIVE_ENABLED == 2 ? 127 : dVal));
+             SetMotor(LV_WHEEL_F1, (LV_DRIVE_ENABLED == 2 ? 127 : dVal) * -1);
+             SetMotor(LV_WHEEL_B1, (LV_DRIVE_ENABLED == 2 ? 127 : dVal) * -1);
+             SetMotor(LV_WHEEL_F2, (LV_DRIVE_ENABLED == 2 ? 127 : dVal));
+             SetMotor(LV_WHEEL_B2, (LV_DRIVE_ENABLED == 2 ? 127 : dVal));
          }
      }
 }
@@ -181,4 +181,4 @@ void getJSAnalog(int joystick, int channel) {
 void LV_DoStuff() {
      LV_DoDrive();
 }
-#endif __LIBVEX_H
+#endif

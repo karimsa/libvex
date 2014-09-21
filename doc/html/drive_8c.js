@@ -6,14 +6,14 @@ var drive_8c =
     [ "isWheelsSet", "drive_8c.html#ae148788d73effe6e4ffb2f6a14f3f02a", null ],
     [ "LV_DoDrive", "drive_8c.html#a1966ce64e9fe39e19ad672c0600d041a", null ],
     [ "setWheels", "drive_8c.html#a4945f18cb56695f3417eb75082cb7f24", null ],
-    [ "LV_B1", "drive_8c.html#a4d4fa8cc2cef1359e3ed6691aa8c4923", null ],
-    [ "LV_B2", "drive_8c.html#a1b3c56f66b4a18500d8660e35c6c2d05", null ],
     [ "LV_DRIVE_CHANNEL", "drive_8c.html#a0cba2db4207300a2dc8acfcb916a4e78", null ],
     [ "LV_DRIVE_ENABLED", "drive_8c.html#a67f94acefe222d6da84ff699f847f124", null ],
     [ "LV_DRIVE_JOYSTICK", "drive_8c.html#a2ba63b74075e0301a14739e523d8f11d", null ],
-    [ "LV_F1", "drive_8c.html#a73c0d1151b39a8d0d1c4c597b6ae043a", null ],
-    [ "LV_F2", "drive_8c.html#a028bba826f01373da7dd5500c11d55b8", null ],
     [ "LV_TURN_CHANNEL", "drive_8c.html#ab02027e286c42da1e614b11c12dafafd", null ],
     [ "LV_TURN_ENABLED", "drive_8c.html#aaeb838635f841e10e39b46083ca2a820", null ],
-    [ "LV_TURN_JOYSTICK", "drive_8c.html#a381f711c081b9aa4c1108524afefff27", null ]
+    [ "LV_TURN_JOYSTICK", "drive_8c.html#a381f711c081b9aa4c1108524afefff27", null ],
+    [ "LV_WHEEL_B1", "drive_8c.html#ab3f8e43aab80605ae97111af477f88a8", null ],
+    [ "LV_WHEEL_B2", "drive_8c.html#a1ac081c872e11d70b9756fe20c5d295c", null ],
+    [ "LV_WHEEL_F1", "drive_8c.html#aa4a8ea94217f1124fabc996dbeead7b8", null ],
+    [ "LV_WHEEL_F2", "drive_8c.html#a16a978a8175178128f10b44bf554792c", null ]
 ];
