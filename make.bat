@@ -5,6 +5,9 @@ REM
 REM Copyright (C) 2014 Karim Alibhai.
 REM --------------------------------------------------------
 
+IF "%1" == "doc" (GOTO :DOC)
+IF "%1" == "update" (GOTO :UPDATE)
+
 ECHO.Compiling headers ...
 ECHO.#ifndef __LIBVEX_H>libvex.h
 ECHO.#define __LIBVEX_H>>libvex.h
@@ -17,4 +20,12 @@ ECHO.#define __LIBVEX_H>>libvex.c
 FOR /F "tokens=*" %%F in ('dir /b src\*.c') DO TYPE src\%%F >>libvex.c
 ECHO.#endif __LIBVEX_H>>libvex.c
 
+GOTO :EOF
+
+:DOC
+doxygen
+GOTO :EOF
+
+:UPDATE
+git pull origin master
 GOTO :EOF
