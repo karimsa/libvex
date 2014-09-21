@@ -2,7 +2,8 @@ var drive_8c =
 [
     [ "enableDrive", "drive_8c.html#a4fe9d6c5ecca12025bf3233e2d94976e", null ],
     [ "enableTurn", "drive_8c.html#a25852fcef8568a62af996d70228eb490", null ],
-    [ "setMotors", "drive_8c.html#a5968afc9a483da4d6ba775508c86af0c", null ],
+    [ "isWheelsSet", "drive_8c.html#ae148788d73effe6e4ffb2f6a14f3f02a", null ],
+    [ "setWheels", "drive_8c.html#a4945f18cb56695f3417eb75082cb7f24", null ],
     [ "LV_B1", "drive_8c.html#a4d4fa8cc2cef1359e3ed6691aa8c4923", null ],
     [ "LV_B2", "drive_8c.html#a1b3c56f66b4a18500d8660e35c6c2d05", null ],
     [ "LV_DRIVE_CHANNEL", "drive_8c.html#a0cba2db4207300a2dc8acfcb916a4e78", null ],

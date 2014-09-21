@@ -1,16 +1,41 @@
 #ifdef __LIBVEX_H
 #define __LIBVEX_H
 /*
+ * buttons.c -- libvex
+ * Button state helpers.
+ *
+ * Copyright (C) 2014 Karim Alibhai.
+ */
+
+/**
+ * checks if a button is pressed
+ * @param button the constant representing the button
+ * @return 1=true, 0=false
+ **/
+int isButtonPressed(int button) {
+    int joystick, channel, btn;
+    
+    switch (button) {
+           default:
+                   joystick = -1;
+                   channel = -1;
+                   btn = -1;
+                   break;
+    }
+    
+    return joystick == -1 ? 0 : getJSDigital(joystick, channel, btn);
+}
+/*
  * drive.c -- libvex
  * The driving related helper functions source. 
  *
  * Copyright (C) 2014 Karim Alibhai.
  */
 
-int     /*!the pin of the front left wheel*/ LV_F1,
-	/*!the pin of the front right wheel*/ LV_F2,
-	/*!the pin of the back left wheel*/ LV_B1,
-	/*!the pin of the back right wheel*/ LV_B2,
+int /*!the pin of the front left wheel*/ LV_F1 = -1,
+	/*!the pin of the front right wheel*/ LV_F2 = -1,
+	/*!the pin of the back left wheel*/ LV_B1 = -1,
+	/*!the pin of the back right wheel*/ LV_B2 = -1,
 	/*!whether or not libvex should handle driving*/ LV_DRIVE_ENABLED = 0,
 	/*!the joystick which should handle driving*/ LV_DRIVE_JOYSTICK = 0,
 	/*!the channel on the joystick handling driving*/ LV_DRIVE_CHANNEL = 0,
@@ -19,17 +44,34 @@ int     /*!the pin of the front left wheel*/ LV_F1,
 	/*!the channel on the joystick handling turning*/ LV_TURN_CHANNEL = 0;
 
 /**
+ * check if wheels are correctly set
+ * @return 1=true, 0=false
+ **/
+int isWheelsSet() {
+    return (LV_F1 > 0 && LV_F1 < 11 && LV_F2 > 0 && LV_F2 < 11 && LV_B1 > 0 && LV_B1 < 11 && LV_B2 > 0 && LV_B2 < 11);
+}
+
+/**
  * configuration of the wheel motor pins.
  * @param F1 the pin of the front left wheel
  * @param F2 the pin of the front right wheel
  * @param B1 the pin of the back left wheel
  * @param B2 the pin of the back right wheel
  **/
-void setMotors(int F1, int F2, int B1, int B2) {
-	LV_F1 = F1;
-	LV_F2 = F2;
-	LV_B1 = B1;
-	LV_B2 = B2;
+void setWheels(int F1, int F2, int B1, int B2) {
+     // set pin numbers, globally
+     LV_F1 = F1;
+     LV_F2 = F2;
+     LV_B1 = B1;
+     LV_B2 = B2;
+
+     // reset wheels if invalid pins are given
+     if (!isWheelsSet()) {
+         LV_F1 = -1;
+         LV_F2 = -1;
+         LV_B1 = -1;
+         LV_B2 = -1;
+     }
 }
 
 /**
@@ -38,9 +80,12 @@ void setMotors(int F1, int F2, int B1, int B2) {
  * @param channel the joystick axis number (on controller)
  **/
 void enableDrive(int js, int channel) {
-	LV_DRIVE_ENABLED = 1;
-	LV_DRIVE_JOYSTICK = js;
-	LV_DRIVE_CHANNEL = channel;
+     // only enable driving if the motors are set
+     if (isWheelsSet()) {
+         LV_DRIVE_ENABLED = 1;
+         LV_DRIVE_JOYSTICK = js;
+         LV_DRIVE_CHANNEL = channel;
+     }
 }
 
 /**
@@ -49,8 +94,70 @@ void enableDrive(int js, int channel) {
  * @param channel the joystick axis number (on controller)
  **/
 void enableTurn(int js, int channel) {
-	LV_TURN_ENABLED = 1;
-	LV_TURN_JOYSTICK = js;
-	LV_TURN_CHANNEL = channel;
+     // only enable driving if the motors are set
+     if (isWheelsSet() && LV_DRIVE_ENABLED == 1) {
+         LV_TURN_ENABLED = 1;
+         LV_TURN_JOYSTICK = js;
+         LV_TURN_CHANNEL = channel;
+     }
+}
+/*
+ * joystick.c -- libvex
+ * Joystick helper functions.
+ *
+ * Copyright (C) 2014 Karim Alibhai.
+ */
+
+/**
+ * get analog value for joystick on channel axis
+ * @param joystick the joystick number (1=Right, 2=Left)
+ * @param channel the axis number (on controller)
+ * @return integer value between 127 to -127
+ **/
+void getJSAnalog(int joystick, int channel) {
+     int tmp = GetJoystickAnalog(joystick, channel);
+     
+     // based on the joystick sample code by easyC
+     return (tmp > 10 || tmp < -10) ? tmp : 0;
+}
+/*
+ * main.c -- libvex
+ * The continous code that does the stuff.
+ *
+ * Copyright (C) 2014 Karim Alibhai.
+ */
+
+/**
+ * the continous code that does the stuff
+ **/
+void LV_DoStuff() {
+     int dVal = 0, tVal = -1;
+     
+     // handle driving
+     if (LV_DRIVE_ENABLED) {
+         dVal = getJSAnalog(LV_DRIVE_JOYSTICK, LV_DRIVE_CHANNEL);
+
+         // handle turning
+         if (LV_TURN_ENABLED) {
+             tVal = getJSAnalog(LV_TURN_JOYSTICK, LV_TURN_CHANNEL);
+
+             if (tVal > 10) {
+                 SetMotor(WHEEL_F1, dVal * -1);
+                 SetMotor(WHEEL_B1, dVal * -1);
+                 SetMotor(WHEEL_F2, dVal / 2);
+                 SetMotor(WHEEL_B2, dVal / 2);
+             } else {
+                 SetMotor(WHEEL_F1, (dVal / 2) * -1);
+                 SetMotor(WHEEL_B1, (dVal / 2) * -1);
+                 SetMotor(WHEEL_F2, dVal);
+                 SetMotor(WHEEL_B2, dVal);
+             }
+         } else {
+             SetMotor(WHEEL_F1, dVal * -1);
+             SetMotor(WHEEL_B1, dVal * -1);
+             SetMotor(WHEEL_F2, dVal);
+             SetMotor(WHEEL_B2, dVal);
+         }
+     }
 }
 #endif __LIBVEX_H

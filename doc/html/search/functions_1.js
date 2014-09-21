@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['setmotors',['setMotors',['../drive_8c.html#a5968afc9a483da4d6ba775508c86af0c',1,'drive.c']]]
+  ['getjsanalog',['getJSAnalog',['../joystick_8c.html#a9f06660f7df46106468cabcd93c6c5b2',1,'joystick.c']]]
 ];
