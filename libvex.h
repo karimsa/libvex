@@ -1,5 +1,5 @@
-#ifndef __LIBVEX_H
-#define __LIBVEX_H
+#ifndef _LIBVEX_H
+#define _LIBVEX_H
 /*
  * buttons.h -- libvex
  * Button state helpers.
@@ -31,7 +31,7 @@ int isButtonPressed(int button);
  * Copyright (C) 2014 Karim Alibhai.
  */
 
-void setMotors(int F1, int F2, int B1, int B2);
+void setWheels(int F1, int F2, int B1, int B2);
 void enableDrive(int js, int channel);
 void enableSpeedDrive(int js, int channel);
 void enableTurn(int js, int channel);

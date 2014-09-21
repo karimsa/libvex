@@ -1,5 +1,4 @@
-#ifdef __LIBVEX_H
-#define __LIBVEX_H
+#ifdef _LIBVEX_H
 /*
  * buttons.c -- libvex
  * Button state helpers.
