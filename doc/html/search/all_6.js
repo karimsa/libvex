@@ -2,6 +2,7 @@ var searchData=
 [
   ['lv_5fb1',['LV_B1',['../drive_8c.html#a4d4fa8cc2cef1359e3ed6691aa8c4923',1,'drive.c']]],
   ['lv_5fb2',['LV_B2',['../drive_8c.html#a1b3c56f66b4a18500d8660e35c6c2d05',1,'drive.c']]],
+  ['lv_5fdodrive',['LV_DoDrive',['../drive_8c.html#a1966ce64e9fe39e19ad672c0600d041a',1,'drive.c']]],
   ['lv_5fdostuff',['LV_DoStuff',['../main_8c.html#a2d7508c00c1ed2d76a635df3fb56e4df',1,'main.c']]],
   ['lv_5fdrive_5fchannel',['LV_DRIVE_CHANNEL',['../drive_8c.html#a0cba2db4207300a2dc8acfcb916a4e78',1,'drive.c']]],
   ['lv_5fdrive_5fenabled',['LV_DRIVE_ENABLED',['../drive_8c.html#a67f94acefe222d6da84ff699f847f124',1,'drive.c']]],

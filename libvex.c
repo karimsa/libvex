@@ -89,6 +89,20 @@ void enableDrive(int js, int channel) {
 }
 
 /**
+ * enables libvex to handle speed driving using given config
+ * @param js the joystick number (1=Right, 2=Left)
+ * @param channel the joystick axis number (on controller)
+ **/
+void enableSpeedDrive(int js, int channel) {
+     // only enable driving if the motors are set
+     if (isWheelsSet()) {
+         LV_DRIVE_ENABLED = 2;
+         LV_DRIVE_JOYSTICK = js;
+         LV_DRIVE_CHANNEL = channel;
+     }
+}
+
+/**
  * enables libvex to handle turning using given config
  * @param js the joystick number (1=Right, 2=Left)
  * @param channel the joystick axis number (on controller)
@@ -99,6 +113,40 @@ void enableTurn(int js, int channel) {
          LV_TURN_ENABLED = 1;
          LV_TURN_JOYSTICK = js;
          LV_TURN_CHANNEL = channel;
+     }
+}
+
+/**
+ * continous code for driving and turning
+ **/
+void LV_DoDrive() {
+     int dVal = 0, tVal = -1;
+     
+     // handle driving
+     if (LV_DRIVE_ENABLED != 0) {
+         dVal = getJSAnalog(LV_DRIVE_JOYSTICK, LV_DRIVE_CHANNEL);
+
+         // handle turning
+         if (LV_TURN_ENABLED) {
+             tVal = getJSAnalog(LV_TURN_JOYSTICK, LV_TURN_CHANNEL);
+
+             if (tVal > 10) {
+                 SetMotor(WHEEL_F1, (LV_DRIVE_ENABLED == 2 ? 127 : dVal) * -1);
+                 SetMotor(WHEEL_B1, (LV_DRIVE_ENABLED == 2 ? 127 : dVal) * -1);
+                 SetMotor(WHEEL_F2, (LV_DRIVE_ENABLED == 2 ? 127 : dVal) / 2);
+                 SetMotor(WHEEL_B2, (LV_DRIVE_ENABLED == 2 ? 127 : dVal) / 2);
+             } else {
+                 SetMotor(WHEEL_F1, ((LV_DRIVE_ENABLED == 2 ? 127 : dVal) / 2) * -1);
+                 SetMotor(WHEEL_B1, ((LV_DRIVE_ENABLED == 2 ? 127 : dVal) / 2) * -1);
+                 SetMotor(WHEEL_F2, (LV_DRIVE_ENABLED == 2 ? 127 : dVal));
+                 SetMotor(WHEEL_B2, (LV_DRIVE_ENABLED == 2 ? 127 : dVal));
+             }
+         } else {
+             SetMotor(WHEEL_F1, (LV_DRIVE_ENABLED == 2 ? 127 : dVal) * -1);
+             SetMotor(WHEEL_B1, (LV_DRIVE_ENABLED == 2 ? 127 : dVal) * -1);
+             SetMotor(WHEEL_F2, (LV_DRIVE_ENABLED == 2 ? 127 : dVal));
+             SetMotor(WHEEL_B2, (LV_DRIVE_ENABLED == 2 ? 127 : dVal));
+         }
      }
 }
 /*
@@ -131,33 +179,6 @@ void getJSAnalog(int joystick, int channel) {
  * the continous code that does the stuff
  **/
 void LV_DoStuff() {
-     int dVal = 0, tVal = -1;
-     
-     // handle driving
-     if (LV_DRIVE_ENABLED) {
-         dVal = getJSAnalog(LV_DRIVE_JOYSTICK, LV_DRIVE_CHANNEL);
-
-         // handle turning
-         if (LV_TURN_ENABLED) {
-             tVal = getJSAnalog(LV_TURN_JOYSTICK, LV_TURN_CHANNEL);
-
-             if (tVal > 10) {
-                 SetMotor(WHEEL_F1, dVal * -1);
-                 SetMotor(WHEEL_B1, dVal * -1);
-                 SetMotor(WHEEL_F2, dVal / 2);
-                 SetMotor(WHEEL_B2, dVal / 2);
-             } else {
-                 SetMotor(WHEEL_F1, (dVal / 2) * -1);
-                 SetMotor(WHEEL_B1, (dVal / 2) * -1);
-                 SetMotor(WHEEL_F2, dVal);
-                 SetMotor(WHEEL_B2, dVal);
-             }
-         } else {
-             SetMotor(WHEEL_F1, dVal * -1);
-             SetMotor(WHEEL_B1, dVal * -1);
-             SetMotor(WHEEL_F2, dVal);
-             SetMotor(WHEEL_B2, dVal);
-         }
-     }
+     LV_DoDrive();
 }
 #endif __LIBVEX_H
