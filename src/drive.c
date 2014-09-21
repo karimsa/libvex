@@ -21,7 +21,7 @@ int /*!the pin of the front left wheel*/ LV_WHEEL_F1 = -1,
  * @return 1=true, 0=false
  **/
 int isWheelsSet() {
-    return (LV_F1 > 0 && LV_F1 < 11 && LV_F2 > 0 && LV_F2 < 11 && LV_B1 > 0 && LV_B1 < 11 && LV_B2 > 0 && LV_B2 < 11);
+    return (LV_WHEEL_F1 > 0 && LV_WHEEL_F1 < 11 && LV_WHEEL_F2 > 0 && LV_WHEEL_F2 < 11 && LV_WHEEL_B1 > 0 && LV_WHEEL_B1 < 11 && LV_WHEEL_B2 > 0 && LV_WHEEL_B2 < 11);
 }
 
 /**
@@ -33,17 +33,17 @@ int isWheelsSet() {
  **/
 void setWheels(int F1, int F2, int B1, int B2) {
      // set pin numbers, globally
-     LV_F1 = F1;
-     LV_F2 = F2;
-     LV_B1 = B1;
-     LV_B2 = B2;
+     LV_WHEEL_F1 = F1;
+     LV_WHEEL_F2 = F2;
+     LV_WHEEL_B1 = B1;
+     LV_WHEEL_B2 = B2;
 
      // reset wheels if invalid pins are given
      if (!isWheelsSet()) {
-         LV_F1 = -1;
-         LV_F2 = -1;
-         LV_B1 = -1;
-         LV_B2 = -1;
+         LV_WHEEL_F1 = -1;
+         LV_WHEEL_F2 = -1;
+         LV_WHEEL_B1 = -1;
+         LV_WHEEL_B2 = -1;
      }
 }
 
