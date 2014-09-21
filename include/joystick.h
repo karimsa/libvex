@@ -5,5 +5,5 @@
  * Copyright (C) 2014 Karim Alibhai.
  */
 
-void getJSAnalog(int joystick, int channel);
-void getJSDigital(int joystick, int channel, int btn);
+int getJSAnalog(int joystick, int channel);
+int getJSDigital(int btn);

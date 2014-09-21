@@ -26,7 +26,8 @@ var NAVTREEINDEX0 =
 "globals_vars.html":[0,1,2],
 "index.html":[],
 "joystick_8c.html":[0,0,0,2],
-"joystick_8c.html#a9f06660f7df46106468cabcd93c6c5b2":[0,0,0,2,0],
+"joystick_8c.html#a6458141b778056cda4ae3e593a481b6f":[0,0,0,2,1],
+"joystick_8c.html#a68dc057af0c2e20d4214e35167bc595d":[0,0,0,2,0],
 "main_8c.html":[0,0,0,3],
 "main_8c.html#a2d7508c00c1ed2d76a635df3fb56e4df":[0,0,0,3,0],
 "pages.html":[]
