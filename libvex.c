@@ -116,26 +116,33 @@ void LV_DoDrive() {
      if (LV_DRIVE_ENABLED != 0) {
          dVal = getJSAnalog(LV_DRIVE_JOYSTICK, LV_DRIVE_CHANNEL);
 
-         // handle turning
-         if (LV_TURN_ENABLED) {
-             tVal = getJSAnalog(LV_TURN_JOYSTICK, LV_TURN_CHANNEL);
+         if (dVal != 0) {
+             // handle turning
+             if (LV_TURN_ENABLED) {
+                 tVal = getJSAnalog(LV_TURN_JOYSTICK, LV_TURN_CHANNEL);
 
-             if (tVal > 10) {
-                 SetMotor(LV_WHEEL_F1, (LV_DRIVE_ENABLED == 2 ? 127 : dVal) * -1);
-                 SetMotor(LV_WHEEL_B1, (LV_DRIVE_ENABLED == 2 ? 127 : dVal) * -1);
-                 SetMotor(LV_WHEEL_F2, (LV_DRIVE_ENABLED == 2 ? 127 : dVal) / 2);
-                 SetMotor(LV_WHEEL_B2, (LV_DRIVE_ENABLED == 2 ? 127 : dVal) / 2);
+                 if (tVal > 10) {
+                     SetMotor(LV_WHEEL_F1, (LV_DRIVE_ENABLED == 2 ? (127 * (dVal > 0 ? 1 : -1)) : dVal) * -1);
+                     SetMotor(LV_WHEEL_B1, (LV_DRIVE_ENABLED == 2 ? (127 * (dVal > 0 ? 1 : -1)) : dVal) * -1);
+                     SetMotor(LV_WHEEL_F2, 32 * (dVal > 0 ? 1 : -1));
+                     SetMotor(LV_WHEEL_B2, 32 * (dVal > 0 ? 1 : -1));
+                 } else if (tVal != 0) {
+                     SetMotor(LV_WHEEL_F1, 32 * (dVal > 0 ? -1 : 1));
+                     SetMotor(LV_WHEEL_B1, 32 * (dVal > 0 ? -1 : 1));
+                     SetMotor(LV_WHEEL_F2, (LV_DRIVE_ENABLED == 2 ? (127 * (dVal > 0 ? 1 : -1)) : dVal));
+                     SetMotor(LV_WHEEL_B2, (LV_DRIVE_ENABLED == 2 ? (127 * (dVal > 0 ? 1 : -1)) : dVal));
+                }
              } else {
-                 SetMotor(LV_WHEEL_F1, ((LV_DRIVE_ENABLED == 2 ? 127 : dVal) / 2) * -1);
-                 SetMotor(LV_WHEEL_B1, ((LV_DRIVE_ENABLED == 2 ? 127 : dVal) / 2) * -1);
-                 SetMotor(LV_WHEEL_F2, (LV_DRIVE_ENABLED == 2 ? 127 : dVal));
-                 SetMotor(LV_WHEEL_B2, (LV_DRIVE_ENABLED == 2 ? 127 : dVal));
+                 SetMotor(LV_WHEEL_F1, (LV_DRIVE_ENABLED == 2 ? (127 * (dVal > 0 ? 1 : -1)) : dVal) * -1);
+                 SetMotor(LV_WHEEL_B1, (LV_DRIVE_ENABLED == 2 ? (127 * (dVal > 0 ? 1 : -1)) : dVal) * -1);
+                 SetMotor(LV_WHEEL_F2, (LV_DRIVE_ENABLED == 2 ? (127 * (dVal > 0 ? 1 : -1)) : dVal));
+                 SetMotor(LV_WHEEL_B2, (LV_DRIVE_ENABLED == 2 ? (127 * (dVal > 0 ? 1 : -1)) : dVal));
              }
          } else {
-             SetMotor(LV_WHEEL_F1, (LV_DRIVE_ENABLED == 2 ? 127 : dVal) * -1);
-             SetMotor(LV_WHEEL_B1, (LV_DRIVE_ENABLED == 2 ? 127 : dVal) * -1);
-             SetMotor(LV_WHEEL_F2, (LV_DRIVE_ENABLED == 2 ? 127 : dVal));
-             SetMotor(LV_WHEEL_B2, (LV_DRIVE_ENABLED == 2 ? 127 : dVal));
+             SetMotor(LV_WHEEL_F1, 0);
+             SetMotor(LV_WHEEL_B1, 0);
+             SetMotor(LV_WHEEL_F2, 0);
+             SetMotor(LV_WHEEL_B2, 0);
          }
      }
 }
