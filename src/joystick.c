@@ -23,40 +23,6 @@ int getJSAnalog(int joystick, int channel) {
  * @param button the constant representing the button
  * @return 1=Pressed, 0=Idle
  **/
-int getJSDigital(int button) {
-    int joystick, channel, btn;
-    
-    switch (button) {
-           case LV_BTN_R1:
-                joystick = 1;
-                channel = 6;
-                btn = 2;
-                break;
-           
-           case LV_BTN_R2:
-                joystick = 1;
-                channel = 6;
-                btn = 1;
-                break;
-           
-           case LV_BTN_L1:
-                joystick = 1;
-                channel = 5;
-                btn = 2;
-                break;
-           
-           case LV_BTN_L2:
-                joystick = 1;
-                channel = 5;
-                btn = 1;
-                break;
-           
-           default:
-                joystick = -1;
-                channel = -1;
-                btn = -1;
-                break;
-    }
-    
-    return joystick == -1 ? 0 : GetJoystickDigital(joystick, channel, btn);
+int getJSDigital(int joystick, LV_BUTTON *button) {
+    return GetJoystickDigital(joystick, button->channel, button->number);
 }

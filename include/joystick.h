@@ -6,4 +6,4 @@
  */
 
 int getJSAnalog(int joystick, int channel);
-int getJSDigital(int btn);
+int getJSDigital(int joystick, LV_BUTTON *button);

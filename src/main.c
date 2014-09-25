@@ -6,6 +6,13 @@
  */
 
 /**
+ * initializes important stuff
+ **/
+void LVInit() {
+     initButtons();
+}
+
+/**
  * the continous code that does the stuff
  **/
 void LV_DoStuff() {

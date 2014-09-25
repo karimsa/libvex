@@ -6,3 +6,4 @@
  */
  
 void LV_DoStuff();
+void LVInit();
