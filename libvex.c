@@ -202,6 +202,10 @@ int getJSAnalog(int joystick, int channel) {
 int getJSDigital(int joystick, LV_BUTTON *button) {
     return GetJoystickDigital(joystick, button->channel, button->number);
 }
+
+void JSToMotor(int joystick, int channel, int motor, int inverse) {
+     SetMotor(motor, getJSAnalog(joystick, channel) * (inverse == 0 ? 1 : -1));
+}
 /*
  * main.c -- libvex
  * The continous code that does the stuff.
