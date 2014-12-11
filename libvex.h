@@ -14,6 +14,13 @@ typedef struct
         int number;
 } LV_BUTTON;
 
+// structure of button group
+typedef struct
+{
+        LV_BUTTON btns[1];
+        int size;
+} LV_BUTTON_GROUP;
+
 // function definitions
 LV_BUTTON* defineBtn(int channel, int number);
 int isButtonPressed(int joystick, LV_BUTTON* button);
@@ -48,6 +55,8 @@ void enableTurn(int js, int channel);
 
 int getJSAnalog(int joystick, int channel);
 int getJSDigital(int joystick, LV_BUTTON *button);
+void JSToMotor(int joystick, int channel, int motor, int inverse);
+void JSToMotorIME(int joystick, int channel, int motor, int inverse, long min, long max);
 /*
  * main.h -- libvex
  * The continous code that does the stuff.
@@ -57,4 +66,14 @@ int getJSDigital(int joystick, LV_BUTTON *button);
  
 void LV_DoStuff();
 void LVInit();
+/**
+ * motors.h
+ * some motor-related tools.
+ *
+ * Copyright (C) 2014 Karim Alibhai.
+ **/
+
+void initIME();
+void resetIME(int motor);
+void initSIME(int motor, int withPID, int tol);
 #endif

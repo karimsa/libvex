@@ -10,6 +10,7 @@
  **/
 void LVInit() {
      initButtons();
+     initIME();
 }
 
 /**

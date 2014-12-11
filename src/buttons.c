@@ -25,6 +25,27 @@ LV_BUTTON* defineBtn(int channel, int number) {
            tmp->number = number;
            return tmp;
 }
+/*
+LV_BUTTON_GROUP* defineGroup() {
+    LV_BUTTON_GROUP* tmp = malloc(sizeof(LV_BUTTON_GROUP));
+    tmp->btns = new LV_BUTTON[1];
+    tmp->size = 0;
+    return tmp;
+}
+
+void addButton2Gp(LV_BUTTON *btn, LV_BUTTON_GROUP *btnGroup) {
+     LV_BUTTON tmp[btnGroup->size];
+     int i;
+     
+     for (i = 0; i < btnGroup->size; i += 1) {
+         tmp[i] = btnGroup->btns[i];
+     }
+     
+     tmp[btnGroup->size - 1] = btn;
+     
+     btnGroup->size += 1;
+     btnGroup->btns = tmp;
+}*/
 
 /**
  * defines buttons at runtime

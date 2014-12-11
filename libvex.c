@@ -27,6 +27,27 @@ LV_BUTTON* defineBtn(int channel, int number) {
            tmp->number = number;
            return tmp;
 }
+/*
+LV_BUTTON_GROUP* defineGroup() {
+    LV_BUTTON_GROUP* tmp = malloc(sizeof(LV_BUTTON_GROUP));
+    tmp->btns = new LV_BUTTON[1];
+    tmp->size = 0;
+    return tmp;
+}
+
+void addButton2Gp(LV_BUTTON *btn, LV_BUTTON_GROUP *btnGroup) {
+     LV_BUTTON tmp[btnGroup->size];
+     int i;
+     
+     for (i = 0; i < btnGroup->size; i += 1) {
+         tmp[i] = btnGroup->btns[i];
+     }
+     
+     tmp[btnGroup->size - 1] = btn;
+     
+     btnGroup->size += 1;
+     btnGroup->btns = tmp;
+}*/
 
 /**
  * defines buttons at runtime
@@ -183,7 +204,7 @@ void LV_DoDrive() {
 
 /**
  * get analog value for joystick on channel axis
- * @param joystick the joystick number (1=Right, 2=Left)
+ * @param joystick the joystick number
  * @param channel the axis number (on controller)
  * @return integer value between 127 to -127
  **/
@@ -203,8 +224,37 @@ int getJSDigital(int joystick, LV_BUTTON *button) {
     return GetJoystickDigital(joystick, button->channel, button->number);
 }
 
+/**
+ * forward a joystick axis to a motor
+ * @param joystick the joystick number
+ * @param channel the axis channel
+ * @param motor the motor pin
+ * @param inverse whether to invert the direction (1=Yes, 0=No)
+ **/
 void JSToMotor(int joystick, int channel, int motor, int inverse) {
      SetMotor(motor, getJSAnalog(joystick, channel) * (inverse == 0 ? 1 : -1));
+}
+
+/**
+ * forward a joystick axis to a motor and restrict by position
+ * @param joystick the joystick number
+ * @param channel the axis channel
+ * @param motor the motor pin
+ * @param inverse whether to invert the direction (1=Yes, 0=No)
+ * @param min the minimum encoding value
+ * @param max the maximum encoding value
+ **/
+void JSToMotorIME(int joystick, int channel, int motor, int inverse, long min, long max) {
+     long enc = GetIntegratedMotorEncoder(motor);
+     int tmp = getJSAnalog(joystick, channel) * (inverse == 0 ? 1 : -1);
+     
+     if (enc < min) {
+             tmp = tmp > 0 ? 0 : tmp;
+     } else if (enc > max) {
+             tmp = tmp < 0 ? 0 : tmp;
+     }
+     
+     SetMotor(motor, tmp);
 }
 /*
  * main.c -- libvex
@@ -218,6 +268,7 @@ void JSToMotor(int joystick, int channel, int motor, int inverse) {
  **/
 void LVInit() {
      initButtons();
+     initIME();
 }
 
 /**
@@ -225,5 +276,28 @@ void LVInit() {
  **/
 void LV_DoStuff() {
      LV_DoDrive();
+}
+/**
+ * motors.c
+ * some motor-related tools.
+ *
+ * Copyright (C) 2014 Karim Alibhai.
+ **/
+
+void initIME() {
+     InitIntegratedMotorEncoders();
+}
+
+void resetIME(int motor) {
+     PresetIntegratedMotorEncoder(motor, 0);
+}
+
+void initSIME(int motor, int withPID, int tol) {
+     resetIME(motor);
+     
+     if (withPID == 1) {
+        DefineIntegratedMotorEncoderPID(motor, 0.5, 0, 0.3, tol);
+        StartIntegratedMotorEncoderPID(motor, 0);
+     }
 }
 #endif

@@ -12,6 +12,13 @@ typedef struct
         int number;
 } LV_BUTTON;
 
+// structure of button group
+typedef struct
+{
+        LV_BUTTON btns[1];
+        int size;
+} LV_BUTTON_GROUP;
+
 // function definitions
 LV_BUTTON* defineBtn(int channel, int number);
 int isButtonPressed(int joystick, LV_BUTTON* button);
