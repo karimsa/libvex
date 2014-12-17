@@ -7,6 +7,7 @@ REM --------------------------------------------------------
 
 IF "%1" == "doc" (GOTO :DOC)
 IF "%1" == "update" (GOTO :UPDATE)
+IF "%1" == "test" (GOTO :TEST)
 
 ECHO.Compiling headers ...
 ECHO.#ifndef _LIBVEX_H>libvex.h
@@ -20,6 +21,22 @@ ECHO.#ifdef _LIBVEX_H>>libvex.c
 FOR /F "tokens=*" %%F in ('dir /b src\*.c') DO TYPE src\%%F >>libvex.c
 ECHO.#endif>>libvex.c
 
+GOTO :EOF
+
+:TEST
+ECHO.Compiling headers ...
+ECHO.#ifndef _LIBVEX_H>libvex.h
+ECHO.#define _LIBVEX_H>>libvex.h
+ECHO.#define __TEST_LV__>>libvex.h
+ECHO.#include "test.h">>libvex.h
+FOR /F "tokens=*" %%F in ('dir /b include\*.h') DO TYPE include\%%F >>libvex.h
+ECHO.#endif>>libvex.h
+
+ECHO.Compiling source ...
+ECHO.#include "libvex.h">libvex.c
+ECHO.#ifdef _LIBVEX_H>>libvex.c
+FOR /F "tokens=*" %%F in ('dir /b src\*.c') DO TYPE src\%%F >>libvex.c
+ECHO.#endif>>libvex.c
 GOTO :EOF
 
 :DOC
