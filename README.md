@@ -1,4 +1,4 @@
-# libvex
+# libvex [![Build Status](http://img.shields.io/travis/karimsa/libvex.svg?style=flat)](https://travis-ci.org/karimsa/libvex)
 A library of helpful code to build faster and more robust VEX robots (using easyC).
 
 ## Reference (Documentation)
