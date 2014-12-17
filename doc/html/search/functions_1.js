@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['setmotors',['setMotors',['../drive_8c.html#a5968afc9a483da4d6ba775508c86af0c',1,'drive.c']]]
+  ['definebtn',['defineBtn',['../buttons_8c.html#acd5446c6ff750972c65d6782ed460e93',1,'buttons.c']]]
 ];
