@@ -1,4 +1,4 @@
 [submodule "doc/html"]
 	path = doc/html
-	url = https://github.com/karimsa/livex.git
+	url = https://github.com/karimsa/libvex.git
 	branch = gh-pages
