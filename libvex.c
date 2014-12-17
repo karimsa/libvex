@@ -88,17 +88,12 @@ void setWheels(int F1, int F2, int B1, int B2) {
         LV_DRIVE_MOTORS = initMotorGroup(4);
 
         // add the motors into the group
-        addMotor(LV_DRIVE_MOTORS, F1, 1);
-        addMotor(LV_DRIVE_MOTORS, F2, 0);
-        addMotor(LV_DRIVE_MOTORS, B1, 1);
-        addMotor(LV_DRIVE_MOTORS, B2, 0);
+        LV_DRIVE_LW[0] = addMotor(LV_DRIVE_MOTORS, F1, 1);
+        LV_DRIVE_LW[1] = addMotor(LV_DRIVE_MOTORS, F2, 0);
+        LV_DRIVE_RW[0] = addMotor(LV_DRIVE_MOTORS, B1, 1);
+        LV_DRIVE_RW[1] = addMotor(LV_DRIVE_MOTORS, B2, 0);
 
-        // add motors to ID group
-        LV_DRIVE_LW[0] = F1;
-        LV_DRIVE_LW[1] = B1;
-        LV_DRIVE_RW[0] = F2;
-        LV_DRIVE_RW[1] = B2;
-
+        // globally set wheel confirmation
 	isWheelsSet = 1;
     }
 }
@@ -171,8 +166,8 @@ void LV_DoDrive() {
                 if (tVal > 10) {
                     setMotors(LV_DRIVE_MOTORS, LV_DRIVE_ENABLED == 2 ? (127 * (dVal > 0 ? 1 : -1)) : dVal);
                 } else if (tVal != 0) {
-                    setSpecificMotors(LV_DRIVE_LW, 2, 32 * (dVal > 0 ? -1 : 1));
-                    setSpecificMotors(LV_DRIVE_RW, 2, LV_DRIVE_ENABLED == 2 ? (127 * (dVal > 0 ? 1 : -1)) : dVal);
+                    setSMotors(LV_DRIVE_LW, 2, LV_DRIVE_MOTORS, 32 * (dVal > 0 ? -1 : 1));
+                    setSMotors(LV_DRIVE_RW, 2, LV_DRIVE_MOTORS, LV_DRIVE_ENABLED == 2 ? (127 * (dVal > 0 ? 1 : -1)) : dVal);
                 }
             } else {
                 setMotors(LV_DRIVE_MOTORS, LV_DRIVE_ENABLED == 2 ? (127 * (dVal > 0 ? 1 : -1)) : dVal);
@@ -361,14 +356,18 @@ LV_MOTOR_GROUP* initMotorGroup(int howMany) {
  * @param group the initialized motor group
  * @param pin the pin of the motor
  * @param inverse whether or not to inverse the power (1=Yes,0=No)
+ * @return integer the index of the new motor
  **/
-void addMotor(LV_MOTOR_GROUP *group, int pin, int inverse) {
+int addMotor(LV_MOTOR_GROUP *group, int pin, int inverse) {
 	group->_last += 1;
 
 	if (group->_last < group->length) {
 		group->motors[group->_last] = pin;
 		group->inverse[group->_last] = inverse == 1 ? -1 : 1;
+		return group->_last;
 	}
+
+	return -1;
 }
 
 /**
@@ -395,7 +394,8 @@ void setSMotors(int motors[], int size, LV_MOTOR_GROUP *group, int power) {
     int i, j;
 
     for (i = 0; i < size; i += 1) {
-        SetMotor(group->motors[i], power);
+	j = motors[i];
+        SetMotor(group->motors[j], power);
     }
 }
 
