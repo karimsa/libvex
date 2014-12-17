@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['enabledrive',['enableDrive',['../drive_8c.html#a4fe9d6c5ecca12025bf3233e2d94976e',1,'drive.c']]],
-  ['enablespeeddrive',['enableSpeedDrive',['../drive_8c.html#a83740a19bee7015a120908976f6511b2',1,'drive.c']]],
-  ['enableturn',['enableTurn',['../drive_8c.html#a25852fcef8568a62af996d70228eb490',1,'drive.c']]]
+  ['definebtn',['defineBtn',['../buttons_8c.html#acd5446c6ff750972c65d6782ed460e93',1,'buttons.c']]],
+  ['drive_2ec',['drive.c',['../drive_8c.html',1,'']]]
 ];

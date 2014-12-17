@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['getjsanalog',['getJSAnalog',['../joystick_8c.html#a68dc057af0c2e20d4214e35167bc595d',1,'joystick.c']]],
-  ['getjsdigital',['getJSDigital',['../joystick_8c.html#a6458141b778056cda4ae3e593a481b6f',1,'joystick.c']]]
+  ['enabledrive',['enableDrive',['../drive_8c.html#a686290685163acc6a52f57a696a0affc',1,'drive.c']]],
+  ['enablespeeddrive',['enableSpeedDrive',['../drive_8c.html#af4d094b51988a689ae477210da1dda6d',1,'drive.c']]],
+  ['enableturn',['enableTurn',['../drive_8c.html#ae5c58eb13ec453a8740f65bc64e56dc2',1,'drive.c']]]
 ];

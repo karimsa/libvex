@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['isbuttonpressed',['isButtonPressed',['../buttons_8c.html#a9a3536ccbefe4cfbfe66419e7375b3bf',1,'buttons.c']]],
-  ['iswheelsset',['isWheelsSet',['../drive_8c.html#ae148788d73effe6e4ffb2f6a14f3f02a',1,'drive.c']]]
+  ['enabledrive',['enableDrive',['../drive_8c.html#a686290685163acc6a52f57a696a0affc',1,'drive.c']]],
+  ['enablespeeddrive',['enableSpeedDrive',['../drive_8c.html#af4d094b51988a689ae477210da1dda6d',1,'drive.c']]],
+  ['enableturn',['enableTurn',['../drive_8c.html#ae5c58eb13ec453a8740f65bc64e56dc2',1,'drive.c']]]
 ];

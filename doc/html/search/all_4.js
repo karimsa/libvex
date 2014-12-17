@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['isbuttonpressed',['isButtonPressed',['../buttons_8c.html#a9a3536ccbefe4cfbfe66419e7375b3bf',1,'buttons.c']]],
-  ['iswheelsset',['isWheelsSet',['../drive_8c.html#ae148788d73effe6e4ffb2f6a14f3f02a',1,'drive.c']]]
+  ['getjsanalog',['getJSAnalog',['../joystick_8c.html#a68dc057af0c2e20d4214e35167bc595d',1,'joystick.c']]],
+  ['getjsdigital',['getJSDigital',['../joystick_8c.html#a754c5651ae357fe297a9a76cb6b41bf1',1,'joystick.c']]]
 ];
