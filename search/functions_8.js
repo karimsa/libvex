@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['setjstolerance',['setJSTolerance',['../joystick_8c.html#a033810fbfd613026283a81856f737b09',1,'joystick.c']]],
+  ['setjstolerance',['setJSTolerance',['../joystick_8c.html#a8bfc26509e1f4483ef394415d4b9a863',1,'joystick.c']]],
   ['setmotors',['setMotors',['../motors_8c.html#afcab44279a2cb9ac84273e0145b1ab37',1,'motors.c']]],
   ['setrmotor',['setRMotor',['../motors_8c.html#ac189cec6655d934bcbf515300e74bb97',1,'motors.c']]],
   ['setrmotors',['setRMotors',['../motors_8c.html#afae58c728e957df7a17a62977c84c433',1,'motors.c']]],

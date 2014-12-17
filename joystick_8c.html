@@ -110,8 +110,8 @@ $(document).ready(function(){initNavTree('joystick_8c.html','');});
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a033810fbfd613026283a81856f737b09"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="joystick_8c.html#a033810fbfd613026283a81856f737b09">setJSTolerance</a> (int val)</td></tr>
-<tr class="separator:a033810fbfd613026283a81856f737b09"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8bfc26509e1f4483ef394415d4b9a863"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="joystick_8c.html#a8bfc26509e1f4483ef394415d4b9a863">setJSTolerance</a> (int value)</td></tr>
+<tr class="separator:a8bfc26509e1f4483ef394415d4b9a863"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a68dc057af0c2e20d4214e35167bc595d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="joystick_8c.html#a68dc057af0c2e20d4214e35167bc595d">getJSAnalog</a> (int joystick, int channel)</td></tr>
 <tr class="separator:a68dc057af0c2e20d4214e35167bc595d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a754c5651ae357fe297a9a76cb6b41bf1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="joystick_8c.html#a754c5651ae357fe297a9a76cb6b41bf1">getJSDigital</a> (int joystick, LV_BUTTON *button)</td></tr>
@@ -187,6 +187,7 @@ Functions</h2></td></tr>
 <p>get pressed state of the button </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">joystick</td><td>the joystick number </td></tr>
     <tr><td class="paramname">button</td><td>the constant representing the button </td></tr>
   </table>
   </dd>
@@ -277,7 +278,7 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">joystick</td><td>the joystick number </td></tr>
     <tr><td class="paramname">channel</td><td>the axis channel </td></tr>
-    <tr><td class="paramname">motor</td><td>the motor pin </td></tr>
+    <tr><td class="paramname">group</td><td>the initialized motor group </td></tr>
   </table>
   </dd>
 </dl>
@@ -336,7 +337,7 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">joystick</td><td>the joystick number </td></tr>
     <tr><td class="paramname">channel</td><td>the axis channel </td></tr>
-    <tr><td class="paramname">motor</td><td>the motor pin </td></tr>
+    <tr><td class="paramname">group</td><td>the initialized motor group </td></tr>
     <tr><td class="paramname">IME</td><td>the pin of the motor with an IME </td></tr>
     <tr><td class="paramname">min</td><td>the minimum encoding </td></tr>
     <tr><td class="paramname">max</td><td>the maximum encoding </td></tr>
@@ -408,7 +409,7 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a033810fbfd613026283a81856f737b09"></a>
+<a class="anchor" id="a8bfc26509e1f4483ef394415d4b9a863"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -416,11 +417,18 @@ Functions</h2></td></tr>
           <td class="memname">void setJSTolerance </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>val</em></td><td>)</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>sets the minimum value that must be read off a joystick channel </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>the minimum value to be used </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -430,7 +438,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="joystick_8c.html">joystick.c</a></li>
-    <li class="footer">Generated on Wed Dec 17 2014 17:53:47 for libvex by
+    <li class="footer">Generated on Wed Dec 17 2014 18:09:56 for libvex by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

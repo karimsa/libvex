@@ -118,8 +118,8 @@ Functions</h2></td></tr>
 <tr class="separator:aa65dcfaf22f90c6dbe7b7a57f3166238"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac189cec6655d934bcbf515300e74bb97"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="motors_8c.html#ac189cec6655d934bcbf515300e74bb97">setRMotor</a> (int motor, int rpower, int inverse)</td></tr>
 <tr class="separator:ac189cec6655d934bcbf515300e74bb97"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ade7e30f01586cee1f8286541df723ddf"><td class="memItemLeft" align="right" valign="top">LV_MOTOR_GROUP *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="motors_8c.html#ade7e30f01586cee1f8286541df723ddf">initMotorGroup</a> (int howMany)</td></tr>
-<tr class="separator:ade7e30f01586cee1f8286541df723ddf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa594cfc3863886e7d750a6771ccc68c"><td class="memItemLeft" align="right" valign="top">LV_MOTOR_GROUP *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="motors_8c.html#afa594cfc3863886e7d750a6771ccc68c">initMotorGroup</a> (int number)</td></tr>
+<tr class="separator:afa594cfc3863886e7d750a6771ccc68c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acf9690118ebc1203fe4516870141e932"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="motors_8c.html#acf9690118ebc1203fe4516870141e932">addMotor</a> (LV_MOTOR_GROUP *group, int pin, int inverse)</td></tr>
 <tr class="separator:acf9690118ebc1203fe4516870141e932"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afcab44279a2cb9ac84273e0145b1ab37"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="motors_8c.html#afcab44279a2cb9ac84273e0145b1ab37">setMotors</a> (LV_MOTOR_GROUP *group, int power)</td></tr>
@@ -226,7 +226,7 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ade7e30f01586cee1f8286541df723ddf"></a>
+<a class="anchor" id="afa594cfc3863886e7d750a6771ccc68c"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -234,7 +234,7 @@ Functions</h2></td></tr>
           <td class="memname">LV_MOTOR_GROUP* initMotorGroup </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>howMany</em></td><td>)</td>
+          <td class="paramname"><em>number</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -357,7 +357,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">motor</td><td>the pin of the motor </td></tr>
-    <tr><td class="paramname">power</td><td>the relative power (from 0 to 100, or from 0 to 1) </td></tr>
+    <tr><td class="paramname">rpower</td><td>the relative power (from 0 to 100, or from 0 to 1) </td></tr>
     <tr><td class="paramname">inverse</td><td>whether to invert the power (1=Yes,0=No) </td></tr>
   </table>
   </dd>
@@ -503,10 +503,12 @@ Functions</h2></td></tr>
     <tr><td class="paramname">motors</td><td>an int-array of motor indexes </td></tr>
     <tr><td class="paramname">size</td><td>the size of the int-array </td></tr>
     <tr><td class="paramname">group</td><td>the initialized motor group </td></tr>
-    <tr><td class="paramname">power</td><td>the amount of power (between -127 to 127) </td></tr>
+    <tr><td class="paramname">rpower</td><td>the amount of power (between -127 to 127) </td></tr>
+    <tr><td class="paramname">inverse</td><td>whether to invert the power (1=Yes,0=No) </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>integer the absolute power value </dd></dl>
 
 </div>
 </div>
@@ -516,7 +518,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="motors_8c.html">motors.c</a></li>
-    <li class="footer">Generated on Wed Dec 17 2014 17:53:47 for libvex by
+    <li class="footer">Generated on Wed Dec 17 2014 18:09:56 for libvex by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
