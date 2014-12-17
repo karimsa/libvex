@@ -34,7 +34,7 @@ void initIMEProc(int motor, int withPID, int tol) {
 /**
  * write a relative power value to a motor
  * @param motor the pin of the motor
- * @param power the relative power (from 0 to 100, or from 0 to 1)
+ * @param rpower the relative power (from 0 to 100, or from 0 to 1)
  * @param inverse whether to invert the power (1=Yes,0=No)
  * @return integer the absolute power used
  **/
@@ -58,13 +58,13 @@ int setRMotor(int motor, int rpower, int inverse) {
  * @param number the number of motors which will be in this group
  * @return LV_MOTOR_GROUP a group created from the motor group structure
  **/
-LV_MOTOR_GROUP* initMotorGroup(int howMany) {
-	LV_MOTOR_GROUP* tmp = malloc(sizeof(LV_MOTOR_GROUP) + (howMany * 2));
+LV_MOTOR_GROUP* initMotorGroup(int number) {
+	LV_MOTOR_GROUP* tmp = malloc(sizeof(LV_MOTOR_GROUP) + (number * 2));
 
-	tmp->motors = realloc(tmp->motors, howMany);
-	tmp->inverse = realloc(tmp->inverse, howMany);
+	tmp->motors = realloc(tmp->motors, number);
+	tmp->inverse = realloc(tmp->inverse, number);
 
-	tmp->length = howMany;
+	tmp->length = number;
 	tmp->_last = -1;
 
 	return tmp;
@@ -123,7 +123,9 @@ void setSMotors(int motors[], int size, LV_MOTOR_GROUP *group, int power) {
  * @param motors an int-array of motor indexes
  * @param size the size of the int-array
  * @param group the initialized motor group
- * @param power the amount of power (between -127 to 127)
+ * @param rpower the amount of power (between -127 to 127)
+ * @param inverse whether to invert the power (1=Yes,0=No)
+ * @return integer the absolute power value
  **/
 int setSRMotors(int motors[], int size, LV_MOTOR_GROUP *group, int rpower, int inverse) {
     // from relative to absolute

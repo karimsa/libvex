@@ -6,9 +6,11 @@
  */
 
 /**
+ * sets the minimum value that must be read off a joystick channel
+ * @param value the minimum value to be used
  **/
-void setJSTolerance(int val) {
-	LV_JOYSTICK_TOLERANCE = val < 0 ? -val : val;
+void setJSTolerance(int value) {
+	LV_JOYSTICK_TOLERANCE = value < 0 ? -value : value;
 }
 
 /**
@@ -24,6 +26,7 @@ int getJSAnalog(int joystick, int channel) {
 
 /**
  * get pressed state of the button
+ * @param joystick the joystick number
  * @param button the constant representing the button
  * @return 1=Pressed, 0=Idle
  **/
@@ -60,7 +63,7 @@ void JSToMotorIME(int joystick, int channel, int motor, int inverse, long min, l
  * forward a joystick axis to a motor group
  * @param joystick the joystick number
  * @param channel the axis channel
- * @param motor the motor pin
+ * @param group the initialized motor group
  **/
 void JSToMotorGroup(int joystick, int channel, LV_MOTOR_GROUP *group) {
     setMotors(group, getJSAnalog(joystick, channel));
@@ -70,7 +73,7 @@ void JSToMotorGroup(int joystick, int channel, LV_MOTOR_GROUP *group) {
  * forward a joystick axis to a motor group  and restrict by encoding
  * @param joystick the joystick number
  * @param channel the axis channel
- * @param motor the motor pin
+ * @param group the initialized motor group
  * @param IME the pin of the motor with an IME
  * @param min the minimum encoding
  * @param max the maximum encoding
