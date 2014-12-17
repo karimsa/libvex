@@ -1,6 +1,6 @@
 /*
- * main.c -- libvex
- * The continous code that does the stuff.
+ * init.c -- libvex
+ * code that does stuff.
  *
  * Copyright (C) 2014 Karim Alibhai.
  */

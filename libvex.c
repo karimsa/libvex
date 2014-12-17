@@ -1,4 +1,4 @@
-#include "libvex.h"
+#include libvex.h
 #ifdef _LIBVEX_H
 /*
  * buttons.c -- libvex
@@ -9,10 +9,11 @@
 
 /**
  * checks if a button is pressed (mirror of getJSDigital())
+ * @param joystick the number of the joystick to read from
  * @param button the constant representing the button
- * @return 1=true, 0=false
+ * @return integer 1=true, 0=false
  **/
-int isButtonPressed(int joystick, LV_BUTTON* button) {
+int isBtnPressed(int joystick, LV_BUTTON* button) {
     return getJSDigital(joystick, button);
 }
 
@@ -20,75 +21,59 @@ int isButtonPressed(int joystick, LV_BUTTON* button) {
  * define the properties of a joystick button
  * @param channel the channel number (on joystick)
  * @param number the button number (on joystick)
- * @return pointer to a new button struct
- */
+ * @return LV_BUTTON pointer to a new button struct
+ **/
 LV_BUTTON* defineBtn(int channel, int number) {
-           LV_BUTTON* tmp = malloc(sizeof(LV_BUTTON));
-           tmp->number = number;
-           return tmp;
-}
-/*
-LV_BUTTON_GROUP* defineGroup() {
-    LV_BUTTON_GROUP* tmp = malloc(sizeof(LV_BUTTON_GROUP));
-    tmp->btns = new LV_BUTTON[1];
-    tmp->size = 0;
+    LV_BUTTON* tmp = malloc(sizeof(LV_BUTTON));
+    tmp->number = number;
     return tmp;
 }
 
-void addButton2Gp(LV_BUTTON *btn, LV_BUTTON_GROUP *btnGroup) {
-     LV_BUTTON tmp[btnGroup->size];
-     int i;
-     
-     for (i = 0; i < btnGroup->size; i += 1) {
-         tmp[i] = btnGroup->btns[i];
-     }
-     
-     tmp[btnGroup->size - 1] = btn;
-     
-     btnGroup->size += 1;
-     btnGroup->btns = tmp;
-}*/
-
 /**
  * defines buttons at runtime
- */
-void initButtons() {     
-     LV_BTN_L1 = defineBtn(5, 1);
-     LV_BTN_L2 = defineBtn(5, 2);
-     
-     LV_BTN_R1 = defineBtn(6, 1);
-     LV_BTN_R2 = defineBtn(6, 2);
-     
-     LV_BTN_LUP = defineBtn(7, 1);
-     LV_BTN_LRIGHT = defineBtn(7, 2);
-     LV_BTN_LDOWN = defineBtn(7, 3);
-     LV_BTN_LLEFT = defineBtn(7, 4);
+ **/
+void initButtons() {
+    LV_BTN_L1 = defineBtn(5, 1);
+    LV_BTN_L2 = defineBtn(5, 2);
+
+	LV_BTN_R1 = defineBtn(6, 1);
+	LV_BTN_R2 = defineBtn(6, 2);
+
+	LV_BTN_LUP = defineBtn(7, 1);
+	LV_BTN_LRIGHT = defineBtn(7, 2);
+	LV_BTN_LRIGHT = defineBtn(7, 3);
+	LV_BTN_LLEFT = defineBtn(7, 4);
+
+	LV_BTN_RDOWN = defineBtn(7, 1);
+	LV_BTN_RUP = defineBtn(7, 2);
+	LV_BTN_RRIGHT = defineBtn(7, 3);
+	LV_BTN_RLEFT = defineBtn(7, 4);
 }
 /*
  * drive.c -- libvex
- * The driving related helper functions source. 
+ * driving related helper functions
  *
  * Copyright (C) 2014 Karim Alibhai.
  */
 
-int /*!the pin of the front left wheel*/ LV_WHEEL_F1 = -1,
-	/*!the pin of the front right wheel*/ LV_WHEEL_F2 = -1,
-	/*!the pin of the back left wheel*/ LV_WHEEL_B1 = -1,
-	/*!the pin of the back right wheel*/ LV_WHEEL_B2 = -1,
-	/*!whether or not libvex should handle driving*/ LV_DRIVE_ENABLED = 0,
+int /*!whether or not libvex should handle driving*/ LV_DRIVE_ENABLED = 0,
 	/*!the joystick which should handle driving*/ LV_DRIVE_JOYSTICK = 0,
 	/*!the channel on the joystick handling driving*/ LV_DRIVE_CHANNEL = 0,
 	/*!whether or not libvex should handle turning*/ LV_TURN_ENABLED = 0,
 	/*!the joystick which should handle turning*/ LV_TURN_JOYSTICK = 0,
 	/*!the channel on the joystick handling turning*/ LV_TURN_CHANNEL = 0;
 
+/*!holds onto the left and right wheels IDs for turning*/
+int LV_DRIVE_LW[2];
+int LV_DRIVE_RW[2];
+
+/*!the motor group for the driving motors*/
+LV_MOTOR_GROUP* LV_DRIVE_MOTORS;
+
 /**
- * check if wheels are correctly set
- * @return 1=true, 0=false
+ * global toggle for if wheels are set
  **/
-int isWheelsSet() {
-    return (LV_WHEEL_F1 > 0 && LV_WHEEL_F1 < 11 && LV_WHEEL_F2 > 0 && LV_WHEEL_F2 < 11 && LV_WHEEL_B1 > 0 && LV_WHEEL_B1 < 11 && LV_WHEEL_B2 > 0 && LV_WHEEL_B2 < 11);
-}
+int isWheelsSet = 0;
 
 /**
  * configuration of the wheel motor pins.
@@ -98,102 +83,125 @@ int isWheelsSet() {
  * @param B2 the pin of the back right wheel
  **/
 void setWheels(int F1, int F2, int B1, int B2) {
-     // set pin numbers, globally
-     LV_WHEEL_F1 = F1;
-     LV_WHEEL_F2 = F2;
-     LV_WHEEL_B1 = B1;
-     LV_WHEEL_B2 = B2;
+    if (F1 > 0 && F1 < 11 && F2 > 0 && F2 < 11 && B1 > 0 && B1 < 11 && B2 > 0 && B2 < 11) {
+        // create a motor group for the wheels
+        LV_DRIVE_MOTORS = initMotorGroup(4);
 
-     // reset wheels if invalid pins are given
-     if (!isWheelsSet()) {
-         LV_WHEEL_F1 = -1;
-         LV_WHEEL_F2 = -1;
-         LV_WHEEL_B1 = -1;
-         LV_WHEEL_B2 = -1;
-     }
+        // add the motors into the group
+        addMotor(LV_DRIVE_MOTORS, F1, 1);
+        addMotor(LV_DRIVE_MOTORS, F2, 0);
+        addMotor(LV_DRIVE_MOTORS, B1, 1);
+        addMotor(LV_DRIVE_MOTORS, B2, 0);
+
+        // add motors to ID group
+        LV_DRIVE_LW[0] = F1;
+        LV_DRIVE_LW[1] = B1;
+        LV_DRIVE_RW[0] = F2;
+        LV_DRIVE_RW[1] = B2;
+
+	isWheelsSet = 1;
+    }
+}
+
+/**
+ * inverts the driving wheels' powers
+ **/
+void invertDrive() {
+    invertMotors(LV_DRIVE_MOTORS);
 }
 
 /**
  * enables libvex to handle driving using given config
- * @param js the joystick number (1=Right, 2=Left)
+ * @param joystick the joystick number
  * @param channel the joystick axis number (on controller)
  **/
-void enableDrive(int js, int channel) {
-     // only enable driving if the motors are set
-     if (isWheelsSet()) {
-         LV_DRIVE_ENABLED = 1;
-         LV_DRIVE_JOYSTICK = js;
-         LV_DRIVE_CHANNEL = channel;
-     }
+void enableDrive(int joystick, int channel) {
+    // only enable driving if the motors are set
+    if (isWheelsSet) {
+        LV_DRIVE_ENABLED = 1;
+        LV_DRIVE_JOYSTICK = joystick;
+        LV_DRIVE_CHANNEL = channel;
+    }
 }
 
 /**
  * enables libvex to handle speed driving using given config
- * @param js the joystick number (1=Right, 2=Left)
+ * @param joystick the joystick number
  * @param channel the joystick axis number (on controller)
  **/
-void enableSpeedDrive(int js, int channel) {
-     // only enable driving if the motors are set
-     if (isWheelsSet()) {
-         LV_DRIVE_ENABLED = 2;
-         LV_DRIVE_JOYSTICK = js;
-         LV_DRIVE_CHANNEL = channel;
-     }
+void enableSpeedDrive(int joystick, int channel) {
+    // only enable driving if the motors are set
+    if (isWheelsSet) {
+        LV_DRIVE_ENABLED = 2;
+        LV_DRIVE_JOYSTICK = joystick;
+        LV_DRIVE_CHANNEL = channel;
+    }
 }
 
 /**
  * enables libvex to handle turning using given config
- * @param js the joystick number (1=Right, 2=Left)
+ * @param joystick the joystick number
  * @param channel the joystick axis number (on controller)
  **/
-void enableTurn(int js, int channel) {
-     // only enable driving if the motors are set
-     if (isWheelsSet() && LV_DRIVE_ENABLED == 1) {
-         LV_TURN_ENABLED = 1;
-         LV_TURN_JOYSTICK = js;
-         LV_TURN_CHANNEL = channel;
-     }
+void enableTurn(int joystick, int channel) {
+    // only enable driving if the motors are set
+    if (isWheelsSet && LV_DRIVE_ENABLED == 1) {
+        LV_TURN_ENABLED = 1;
+        LV_TURN_JOYSTICK = joystick;
+        LV_TURN_CHANNEL = channel;
+    }
 }
 
 /**
  * continous code for driving and turning
+ * call this inside of a while(1) loop.
  **/
 void LV_DoDrive() {
-     int dVal = 0, tVal = -1;
-     
-     // handle driving
-     if (LV_DRIVE_ENABLED != 0) {
-         dVal = getJSAnalog(LV_DRIVE_JOYSTICK, LV_DRIVE_CHANNEL);
+    int dVal = 0, tVal = -1;
 
-         if (dVal != 0) {
-             // handle turning
-             if (LV_TURN_ENABLED) {
-                 tVal = getJSAnalog(LV_TURN_JOYSTICK, LV_TURN_CHANNEL);
+    // handle driving
+    if (LV_DRIVE_ENABLED != 0) {
+        dVal = getJSAnalog(LV_DRIVE_JOYSTICK, LV_DRIVE_CHANNEL);
 
-                 if (tVal > 10) {
-                     SetMotor(LV_WHEEL_F1, (LV_DRIVE_ENABLED == 2 ? (127 * (dVal > 0 ? 1 : -1)) : dVal) * -1);
-                     SetMotor(LV_WHEEL_B1, (LV_DRIVE_ENABLED == 2 ? (127 * (dVal > 0 ? 1 : -1)) : dVal) * -1);
-                     SetMotor(LV_WHEEL_F2, 32 * (dVal > 0 ? 1 : -1));
-                     SetMotor(LV_WHEEL_B2, 32 * (dVal > 0 ? 1 : -1));
-                 } else if (tVal != 0) {
-                     SetMotor(LV_WHEEL_F1, 32 * (dVal > 0 ? -1 : 1));
-                     SetMotor(LV_WHEEL_B1, 32 * (dVal > 0 ? -1 : 1));
-                     SetMotor(LV_WHEEL_F2, (LV_DRIVE_ENABLED == 2 ? (127 * (dVal > 0 ? 1 : -1)) : dVal));
-                     SetMotor(LV_WHEEL_B2, (LV_DRIVE_ENABLED == 2 ? (127 * (dVal > 0 ? 1 : -1)) : dVal));
+        if (dVal != 0) {
+            // handle turning
+            if (LV_TURN_ENABLED) {
+                tVal = getJSAnalog(LV_TURN_JOYSTICK, LV_TURN_CHANNEL);
+
+                if (tVal > 10) {
+                    setMotors(LV_DRIVE_MOTORS, LV_DRIVE_ENABLED == 2 ? (127 * (dVal > 0 ? 1 : -1)) : dVal);
+                } else if (tVal != 0) {
+                    setSpecificMotors(LV_DRIVE_LW, 2, 32 * (dVal > 0 ? -1 : 1));
+                    setSpecificMotors(LV_DRIVE_RW, 2, LV_DRIVE_ENABLED == 2 ? (127 * (dVal > 0 ? 1 : -1)) : dVal);
                 }
-             } else {
-                 SetMotor(LV_WHEEL_F1, (LV_DRIVE_ENABLED == 2 ? (127 * (dVal > 0 ? 1 : -1)) : dVal) * -1);
-                 SetMotor(LV_WHEEL_B1, (LV_DRIVE_ENABLED == 2 ? (127 * (dVal > 0 ? 1 : -1)) : dVal) * -1);
-                 SetMotor(LV_WHEEL_F2, (LV_DRIVE_ENABLED == 2 ? (127 * (dVal > 0 ? 1 : -1)) : dVal));
-                 SetMotor(LV_WHEEL_B2, (LV_DRIVE_ENABLED == 2 ? (127 * (dVal > 0 ? 1 : -1)) : dVal));
-             }
-         } else {
-             SetMotor(LV_WHEEL_F1, 0);
-             SetMotor(LV_WHEEL_B1, 0);
-             SetMotor(LV_WHEEL_F2, 0);
-             SetMotor(LV_WHEEL_B2, 0);
-         }
+            } else {
+                setMotors(LV_DRIVE_MOTORS, LV_DRIVE_ENABLED == 2 ? (127 * (dVal > 0 ? 1 : -1)) : dVal);
+            }
+        } else {
+            setMotors(LV_DRIVE_MOTORS, 0);
+        }
      }
+}
+/*
+ * init.c -- libvex
+ * code that does stuff.
+ *
+ * Copyright (C) 2014 Karim Alibhai.
+ */
+
+/**
+ * initializes important stuff
+ **/
+void LVInit() {
+     initButtons();
+     initIME();
+}
+
+/**
+ * the continous code that does the stuff
+ **/
+void LV_DoStuff() {
+     LV_DoDrive();
 }
 /*
  * joystick.c -- libvex
@@ -203,6 +211,12 @@ void LV_DoDrive() {
  */
 
 /**
+ **/
+void setJSTolerance(int val) {
+	LV_JOYSTICK_TOLERANCE = val < 0 ? -val : val;
+}
+
+/**
  * get analog value for joystick on channel axis
  * @param joystick the joystick number
  * @param channel the axis number (on controller)
@@ -210,9 +224,7 @@ void LV_DoDrive() {
  **/
 int getJSAnalog(int joystick, int channel) {
      int tmp = GetJoystickAnalog(joystick, channel);
-     
-     // based on the joystick sample code by easyC
-     return (tmp > 10 || tmp < -10) ? tmp : 0;
+     return (tmp > LV_JOYSTICK_TOLERANCE || tmp < -LV_JOYSTICK_TOLERANCE) ? tmp : 0;
 }
 
 /**
@@ -236,7 +248,7 @@ void JSToMotor(int joystick, int channel, int motor, int inverse) {
 }
 
 /**
- * forward a joystick axis to a motor and restrict by position
+ * forward a joystick axis to a motor and restrict by encoding
  * @param joystick the joystick number
  * @param channel the axis channel
  * @param motor the motor pin
@@ -246,36 +258,31 @@ void JSToMotor(int joystick, int channel, int motor, int inverse) {
  **/
 void JSToMotorIME(int joystick, int channel, int motor, int inverse, long min, long max) {
      long enc = GetIntegratedMotorEncoder(motor);
-     int tmp = getJSAnalog(joystick, channel) * (inverse == 0 ? 1 : -1);
-     
-     if (enc < min) {
-             tmp = tmp > 0 ? 0 : tmp;
-     } else if (enc > max) {
-             tmp = tmp < 0 ? 0 : tmp;
-     }
-     
-     SetMotor(motor, tmp);
-}
-/*
- * main.c -- libvex
- * The continous code that does the stuff.
- *
- * Copyright (C) 2014 Karim Alibhai.
- */
-
-/**
- * initializes important stuff
- **/
-void LVInit() {
-     initButtons();
-     initIME();
+     SetMotor(motor, enc > min && enc < max ? (getJSAnalog(joystick, channel) * (inverse == 1 ? -1 : 1)) : 0);
 }
 
 /**
- * the continous code that does the stuff
+ * forward a joystick axis to a motor group
+ * @param joystick the joystick number
+ * @param channel the axis channel
+ * @param motor the motor pin
  **/
-void LV_DoStuff() {
-     LV_DoDrive();
+void JSToMotorGroup(int joystick, int channel, LV_MOTOR_GROUP *group) {
+    setMotors(group, getJSAnalog(joystick, channel));
+}
+
+/**
+ * forward a joystick axis to a motor group  and restrict by encoding
+ * @param joystick the joystick number
+ * @param channel the axis channel
+ * @param motor the motor pin
+ * @param IME the pin of the motor with an IME
+ * @param min the minimum encoding
+ * @param max the maximum encoding
+ **/
+void JSToMotorGroupIME(int joystick, int channel, LV_MOTOR_GROUP *group, int IME, long min, long max) {
+    long enc = GetIntegratedMotorEncoder(IME);
+    setMotors(group, enc > min && enc < max ? getJSAnalog(joystick, channel) : 0);
 }
 /**
  * motors.c
@@ -284,20 +291,159 @@ void LV_DoStuff() {
  * Copyright (C) 2014 Karim Alibhai.
  **/
 
+/**
+ * initialize the integrated motor encoders
+ **/
 void initIME() {
      InitIntegratedMotorEncoders();
 }
 
+/**
+ * preset the motor's encoder to 0
+ **/
 void resetIME(int motor) {
      PresetIntegratedMotorEncoder(motor, 0);
 }
 
-void initSIME(int motor, int withPID, int tol) {
+/**
+ * initialize an IME process (call after initIME())
+ **/
+void initIMEProc(int motor, int withPID, int tol) {
      resetIME(motor);
-     
+
      if (withPID == 1) {
         DefineIntegratedMotorEncoderPID(motor, 0.5, 0, 0.3, tol);
         StartIntegratedMotorEncoderPID(motor, 0);
      }
+}
+
+/**
+ * write a relative power value to a motor
+ * @param motor the pin of the motor
+ * @param power the relative power (from 0 to 100, or from 0 to 1)
+ * @param inverse whether to invert the power (1=Yes,0=No)
+ * @return integer the absolute power used
+ **/
+int setRMotor(int motor, int rpower, int inverse) {
+	// from percent to decimal
+	if (rpower > 1)
+		rpower /= 100;
+
+	// from relative to absolute
+	int power = rpower * 127 * (inverse == 1 ? -1 : 1);
+
+	// write to pin
+	SetMotor(motor, power);
+
+	// return absolute value
+	return power;
+}
+
+/**
+ * create a new group of motors
+ * @param number the number of motors which will be in this group
+ * @return LV_MOTOR_GROUP a group created from the motor group structure
+ **/
+LV_MOTOR_GROUP* initMotorGroup(int howMany) {
+	LV_MOTOR_GROUP* tmp = malloc(sizeof(LV_MOTOR_GROUP) + (howMany * 2));
+
+	tmp->motors = realloc(tmp->motors, howMany);
+	tmp->inverse = realloc(tmp->inverse, howMany);
+
+	tmp->length = howMany;
+	tmp->_last = -1;
+
+	return tmp;
+}
+
+/**
+ * add a motor to a motor group
+ * @param group the initialized motor group
+ * @param pin the pin of the motor
+ * @param inverse whether or not to inverse the power (1=Yes,0=No)
+ **/
+void addMotor(LV_MOTOR_GROUP *group, int pin, int inverse) {
+	group->_last += 1;
+
+	if (group->_last < group->length) {
+		group->motors[group->_last] = pin;
+		group->inverse[group->_last] = inverse == 1 ? -1 : 1;
+	}
+}
+
+/**
+ * set power of all the motors in the group
+ * @param group the initialized motor group
+ * @param power the amount of power to give (from 127 to -127)
+ **/
+void setMotors(LV_MOTOR_GROUP *group, int power) {
+	int i;
+
+	for (i = 0; i <= group->_last && i < group->length; i += 1) {
+		SetMotor(group->motors[i], group->inverse[i] * power);
+	}
+}
+
+/**
+ * power a group of specific motors inside of a larger group
+ * @param motors an int-array of motor indexes
+ * @param size the size of the int-array
+ * @param group the initialized motor group
+ * @param power the amount of power (between -127 to 127)
+ **/
+void setSMotors(int motors[], int size, LV_MOTOR_GROUP *group, int power) {
+    int i, j;
+
+    for (i = 0; i < size; i += 1) {
+        SetMotor(group->motors[i], power);
+    }
+}
+
+/**
+ * relatively power a group of specific motors inside of a larger group
+ * @param motors an int-array of motor indexes
+ * @param size the size of the int-array
+ * @param group the initialized motor group
+ * @param power the amount of power (between -127 to 127)
+ **/
+int setSRMotors(int motors[], int size, LV_MOTOR_GROUP *group, int rpower, int inverse) {
+    // from relative to absolute
+    int power = 127 * (rpower > 1 ? (rpower / 100) : rpower) * (inverse == 1 ? -1 : 1);
+
+    // power the group
+    setSMotors(motors, size, group, power);
+
+    // return absolute value to user
+    return power;
+}
+
+/**
+ * set relative power of all motors in a group
+ * @param group the initialized motor group
+ * @param rpower the relative power to write (from 0 to 100, or from 0 to 1)
+ * @param inverse whether or not to invert the power (1=Yes,0=No)
+ * @return integer the absolute value of the relative power
+ **/
+int setRMotors(LV_MOTOR_GROUP *group, int rpower, int inverse) {
+	// from relative to absolute
+	int power = 127 * (rpower > 1 ? (rpower / 100) : rpower) * (inverse == 1 ? -1 : 1);
+
+	// write absolute value
+	setMotors(group, power);
+
+	// return the used power
+	return power;
+}
+
+/**
+ * inverts all motors in a given motor group
+ * @param group the initialized motor group
+ **/
+void invertMotors(LV_MOTOR_GROUP *group) {
+    int i;
+
+    for (i = 0; i <= group->_last && i < group->length; i += 1) {
+        group->inverse[i] = group->inverse[i] == 1 ? -1 : 1;
+    }
 }
 #endif
