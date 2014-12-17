@@ -1,4 +1,9 @@
 language: c
+branches:
+  only:
+    - master
+install:
+  - sudo apt-get install doxygen
 script:
   - make test
   - make doc
