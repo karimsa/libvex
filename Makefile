@@ -26,6 +26,8 @@ src: .PHONY
 	@echo Compiling headers ...
 	@echo \#ifndef _LIBVEX_H > libvex.h
 	@echo \#define _LIBVEX_H >> libvex.h
+	@echo // import the easyC api >> libvex.h
+	@echo \#include \"API.h\" >> libvex.h
 	@for i in include/*.h; do cat $$i >> libvex.h; done
 	@echo \#endif >> libvex.h
 	@echo Compiling sources ...

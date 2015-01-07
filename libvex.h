@@ -1,5 +1,7 @@
 #ifndef _LIBVEX_H
 #define _LIBVEX_H
+// import the easyC api
+#include "API.h"
 /*
  * buttons.h -- libvex
  * Button state helpers.
