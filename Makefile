@@ -4,7 +4,7 @@
 # Copyright (C) 2014 Karim Alibhai.
 # --------------------------------------------------------
 
-all: src doc
+all: src
 
 test: .PHONY
 	@echo Compiling headers ...
