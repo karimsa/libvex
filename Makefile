@@ -36,7 +36,7 @@ lib: .PHONY
 	@for i in lib/*.c; do cat $$i >> libvex.c; done
 	@echo \#endif >> libvex.c
 
-doc: src .PHONY
+doc: lib .PHONY
 	doxygen
 
 update:
