@@ -12,13 +12,16 @@ IF "%1" == "test" (GOTO :TEST)
 ECHO.Compiling headers ...
 ECHO.#ifndef _LIBVEX_H>libvex.h
 ECHO.#define _LIBVEX_H>>libvex.h
+ECHO.>>libvex.h
+ECHO.// import easyC API>>libvex.h
+ECHO.#include "API.h">>libvex.h
 FOR /F "tokens=*" %%F in ('dir /b include\*.h') DO TYPE include\%%F >>libvex.h
 ECHO.#endif>>libvex.h
 
 ECHO.Compiling source ...
 ECHO.#include "libvex.h">libvex.c
 ECHO.#ifdef _LIBVEX_H>>libvex.c
-FOR /F "tokens=*" %%F in ('dir /b src\*.c') DO TYPE src\%%F >>libvex.c
+FOR /F "tokens=*" %%F in ('dir /b lib\*.c') DO TYPE src\%%F >>libvex.c
 ECHO.#endif>>libvex.c
 
 GOTO :EOF
@@ -34,7 +37,7 @@ ECHO.#endif>>test\libvex.h
 ECHO.Compiling source ...
 ECHO.#include "libvex.h">test\libvex.c
 ECHO.#ifdef _LIBVEX_H>>test\libvex.c
-FOR /F "tokens=*" %%F in ('dir /b src\*.c') DO TYPE src\%%F >>test\libvex.c
+FOR /F "tokens=*" %%F in ('dir /b lib\*.c') DO TYPE src\%%F >>test\libvex.c
 ECHO.#endif>>test\libvex.c
 ECHO.Compiling object files ...
 gcc -Itest -c test/libvex.c -o test/libvex.o -Wall
