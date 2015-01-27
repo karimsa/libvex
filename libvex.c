@@ -1,4 +1,4 @@
-#include libvex.h
+#include "libvex.h"
 #ifdef _LIBVEX_H
 /*
  * buttons.c -- libvex
