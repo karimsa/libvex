@@ -61,8 +61,8 @@ int setRMotor(int motor, int rpower, int inverse) {
 LV_MOTOR_GROUP* initMotorGroup(int number) {
 	LV_MOTOR_GROUP* tmp = malloc(sizeof(LV_MOTOR_GROUP) + (number * 2));
 
-	tmp->motors = realloc(tmp->motors, number);
-	tmp->inverse = realloc(tmp->inverse, number);
+	tmp->motors = (int *) malloc(number);
+	tmp->inverse = (int *) malloc(number);
 
 	tmp->length = number;
 	tmp->_last = -1;
