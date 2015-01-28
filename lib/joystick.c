@@ -5,6 +5,8 @@
  * Copyright (C) 2014 Karim Alibhai.
  */
 
+int LV_JOYSTICK_TOLERANCE = 10;
+
 /**
  * sets the minimum value that must be read off a joystick channel
  * @param value the minimum value to be used
